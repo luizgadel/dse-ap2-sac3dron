@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ColetorService } from '../coletor.service';
-import { Coletor } from '../coletor'
-import { strict } from 'assert';
-import { Usuario } from '../usuario';
-import { UsuarioService } from '../usuario.service';
+import { ColetorService } from '../services/coletor.service';
+import { Coletor } from '../models/coletor'
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-map',
@@ -70,7 +68,16 @@ export class MapComponent implements AfterViewInit {
     })
     
     content += "<div> Volume: " + coletor.lotacao*100 + "% cheio</div>"
-    content += "<div> Status: " + coletor.status ? "Tampa aberta" : "Tampa fechada" + "</div>"
+    content += "<div> Status: "
+    if (coletor.statusAberta == true) {
+      content += "Tampa aberta"
+    } else {
+      content += "Tampa fechada"
+      if (coletor.statusTrancado == true) {
+        content += " e trancada"
+      }
+    }
+    content += "</div>"
     
     return content
   }

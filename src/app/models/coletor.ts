@@ -3,10 +3,8 @@ export interface Coletor {
     usuario_id: number,
     altura: number,
     lotacao: number, 
-    status: {
-        aberta: boolean,
-        trancada: boolean
-    },
+    statusAberta: boolean,
+    statusTrancado: boolean,
     latitude: number,
     longitude: number;
 }

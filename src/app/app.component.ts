@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MqttService, IMqttMessage, IMqttServiceOptions } from 'ngx-mqtt';
 import { Subscription } from 'rxjs';
-import { ColetorService } from './coletor.service';
+import { ColetorService } from './services/coletor.service';
 
 @Component({
   selector: 'app-root',
@@ -36,14 +36,16 @@ export class AppComponent implements OnDestroy {
 
     this.subscription_lockedTray = this.mqttService.observeRetained(this.topic_basic_url + "/locked")
       .subscribe((Message: IMqttMessage) => {
-        let trancado = (Message.payload.toString() == "True")? "Sim": "Não"
+        let trancado = (Message.payload.toString() == "True")? true:false
         console.log("Coletor trancado? " + trancado)
+        this.coletorService.updateStatusTrancadoByMAC(this.mac_coletor_ativo, trancado)
       })
 
     this.subscription_openTray = this.mqttService.observeRetained(this.topic_basic_url + "/tray_open")
       .subscribe((Message: IMqttMessage) => {
-        let tampaAberta = (Message.payload.toString() == "True")? "Sim": "Não"
+        let tampaAberta = (Message.payload.toString() == "True")? true:false
         console.log("Tampa aberta? " + tampaAberta)
+        this.coletorService.updateStatusAbertaByMAC(this.mac_coletor_ativo, tampaAberta)
       })
   }
 

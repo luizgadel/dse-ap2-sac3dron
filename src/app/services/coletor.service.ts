@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Coletor } from './coletor';
-import { COLETORES } from './mock';
+import { Coletor } from '../models/coletor';
+import { COLETORES } from '../mock';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,14 @@ export class ColetorService {
     COLETORES[coletorPosition].lotacao = 1 - dist/altura 
   }
 
-  updateStatusByMAC(mac_char: string, aberta: boolean, trancado: boolean) {
-    
+  updateStatusAbertaByMAC(mac_char: string, aberta: boolean) {
+    let coletorPosition = COLETORES.findIndex(coletor => coletor.mac_char == mac_char)
+    COLETORES[coletorPosition].statusAberta = aberta
+  }
+
+  updateStatusTrancadoByMAC(mac_char: string, trancado: boolean) {
+    let coletorPosition = COLETORES.findIndex(coletor => coletor.mac_char == mac_char)
+    COLETORES[coletorPosition].statusTrancado = trancado
   }
 
   getColetores(): Observable<Coletor[]> {
